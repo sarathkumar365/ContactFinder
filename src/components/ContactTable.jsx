@@ -1,37 +1,46 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ContactTable = ({ contacts }) => {
-  console.log(contacts);
-  
   return (
-    <table className="table-auto w-full border-collapse border border-gray-200 mt-4">
-      <thead className="bg-gray-100">
-        <tr>
-          <th className="border border-gray-200 p-2">Name</th>
-          <th className="border border-gray-200 p-2">DOB</th>
-          <th className="border border-gray-200 p-2">Address</th>
-          <th className="border border-gray-200 p-2">City</th>
-          <th className="border border-gray-200 p-2">State</th>
-          <th className="border border-gray-200 p-2">Zip</th>
-          <th className="border border-gray-200 p-2">Email</th>
-          <th className="border border-gray-200 p-2">Phone</th>
-        </tr>
-      </thead>
-      <tbody>
-        {contacts.map((contact, index) => (
-          <tr key={index} className="even:bg-gray-50">
-            <td className="border border-gray-200 p-2">{contact.firstName}</td>
-            <td className="border border-gray-200 p-2">{contact.dob}</td>
-            <td className="border border-gray-200 p-2">{contact.street}</td>
-            <td className="border border-gray-200 p-2">{contact.city}</td>
-            <td className="border border-gray-200 p-2">{contact.state}</td>
-            <td className="border border-gray-200 p-2">{contact.zip}</td>
-            <td className="border border-gray-200 p-2">{contact.email}</td>
-            <td className="border border-gray-200 p-2">{contact.phone}</td>
+    <div className="overflow-x-auto">
+      <table className="min-w-full table-auto">
+        <thead>
+          <tr>
+            <th className="px-4 py-2">First Name</th>
+            <th className="px-4 py-2">Last Name</th>
+            <th className="px-4 py-2">Email</th>
+            <th className="px-4 py-2">Phone</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {contacts.map((contact, index) => (
+            <tr key={contact.email || `${contact.firstName}-${contact.lastName}-${index}`}>
+              <td className="px-4 py-2">
+                <Link to={`/contact/${contact.email}`} className="text-blue-500 hover:underline">
+                  {contact.firstName}
+                </Link>
+              </td>
+              <td className="px-4 py-2">
+                <Link to={`/contact/${contact.email}`} className="text-blue-500 hover:underline">
+                  {contact.lastName}
+                </Link>
+              </td>
+              <td className="px-4 py-2">
+                <Link to={`/contact/${contact.email}`} className="text-blue-500 hover:underline">
+                  {contact.email}
+                </Link>
+              </td>
+              <td className="px-4 py-2">
+                <Link to={`/contact/${contact.email}`} className="text-blue-500 hover:underline">
+                  {contact.phone}
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
