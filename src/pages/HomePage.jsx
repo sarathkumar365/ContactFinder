@@ -15,11 +15,21 @@ const HomePage = () => {
   // Load contacts from localStorage initially
   const [contacts, setContacts] = useState(getContactsFromLocalStorage());
   const [filteredContacts, setFilteredContacts] = useState(contacts); // Filtered contacts for display
+  const [currentPage, setCurrentPage] = useState(1); // Current page number
+  const [contactsPerPage] = useState(5); // Contacts per page (5)
 
   useEffect(() => {
     // Whenever contacts are updated, save them to localStorage
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]); // Updates to contacts will be saved to localStorage
+
+  // Calculate the index of the first and last contact on the current page
+  const indexOfLastContact = currentPage * contactsPerPage;
+  const indexOfFirstContact = indexOfLastContact - contactsPerPage;
+  const currentContacts = filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
+
+  // Handle pagination click
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -34,8 +44,15 @@ const HomePage = () => {
                 contacts={contacts}
                 setFilteredContacts={setFilteredContacts}
               />
-              <ContactTable contacts={filteredContacts} />
-              {filteredContacts.length > 5 && <Pagination />}
+              <ContactTable contacts={currentContacts} />
+              {filteredContacts.length > 5 && (
+                <Pagination
+                  totalContacts={filteredContacts.length}
+                  contactsPerPage={contactsPerPage}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                />
+              )}
             </>
           }
         />
