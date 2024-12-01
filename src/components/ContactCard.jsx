@@ -1,6 +1,10 @@
 import React from 'react';
 
-const ContactCard = ({ contact, setIsEditing, setIsDeleting }) => {
+const ContactCard = ({ contact, setIsEditing = () => {}, setIsDeleting = () => {} }) => {
+  if (!contact) {
+    return <div>No contact details available.</div>; // Fallback for missing contact
+  }
+
   return (
     <div className="border p-6 rounded-lg shadow-md">
       <div className="mb-4">
@@ -21,7 +25,7 @@ const ContactCard = ({ contact, setIsEditing, setIsDeleting }) => {
           Edit
         </button>
         <button
-          onClick={() => setIsDeleting(true)} // Open the delete confirmation modal
+          onClick={() => setIsDeleting(true)}
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
         >
           Delete

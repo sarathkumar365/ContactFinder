@@ -1,63 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import contactsData from '../assets/contacts.json';
-import EditContactForm from '../components/EditContactForm';
+import { ContactsContext } from '../contexts/ContactsContext';
 import ContactCard from '../components/ContactCard';
+import EditContactForm from '../components/EditContactForm';
 
 const ContactDetailsPage = () => {
-  const { id } = useParams();
-  const [contact, setContact] = useState(
-    contactsData.find(contact => contact.email === id) // Find contact by unique identifier
-  );
-  const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false); // Define the `setIsDeleting` state
+  const { contacts, setContacts } = useContext(ContactsContext); // Get contacts from context
+  const { id } = useParams(); // Get the contact ID from the URL
+  const [contact, setContact] = useState(null); // Local state for the current contact
+  const [isEditing, setIsEditing] = useState(false); // State to toggle editing mode
 
-  const handleDelete = () => {
-    // Handle contact deletion logic (e.g., remove from local data)
-    console.log(`Deleted contact: ${contact.firstName} ${contact.lastName}`);
-    setIsDeleting(false); // Close delete modal
+  useEffect(() => {
+    if (contacts) {
+      const foundContact = contacts.find((c) => c.email === id);
+      setContact(foundContact || null);
+    }
+  }, [contacts, id]);
+
+  const handleSave = (updatedContact) => {
+    const updatedContacts = contacts.map((c) =>
+      c.email === updatedContact.email ? updatedContact : c
+    );
+    setContacts(updatedContacts); // Update the contacts state in context
   };
 
   if (!contact) {
-    return <div>Contact not found</div>;
+    return <div>Contact not found.</div>;
   }
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Contact Details</h1>
+
+      {/* Render the EditContactForm if editing, otherwise render the ContactCard */}
       {isEditing ? (
         <EditContactForm
           contact={contact}
           setContact={setContact}
           setIsEditing={setIsEditing}
+          onSave={handleSave}
         />
       ) : (
         <ContactCard
           contact={contact}
-          setIsEditing={setIsEditing}
-          setIsDeleting={setIsDeleting} // Pass `setIsDeleting` to ContactCard
+          setIsEditing={setIsEditing} // Pass down setIsEditing to trigger edit mode
         />
-      )}
-
-      {/* Conditional rendering for delete modal */}
-      {isDeleting && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <p className="mb-4">Are you sure you want to delete this contact?</p>
-            <button
-              onClick={handleDelete}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-            >
-              Yes, Delete
-            </button>
-            <button
-              onClick={() => setIsDeleting(false)}
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 ml-2"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
       )}
     </div>
   );

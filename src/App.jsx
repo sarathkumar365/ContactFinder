@@ -1,16 +1,19 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Use Routes instead of Switch
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ContactDetailsPage from './pages/ContactDetailsPage';
+import { ContactsProvider } from './contexts/ContactsContext';
 
 function App() {
   return (
-    <Router>
-      <Routes>  {/* Use Routes instead of Switch */}
-        <Route path="/" element={<HomePage />} />  {/* Use element prop instead of component */}
-        <Route path="/contact/:id" element={<ContactDetailsPage />} />  {/* Use element prop instead of component */}
-      </Routes>
-    </Router>
+    <ContactsProvider> {/* Wrap the app with the provider */}
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/contact/:id" element={<ContactDetailsPage />} />
+        </Routes>
+      </Router>
+    </ContactsProvider>
   );
 }
 

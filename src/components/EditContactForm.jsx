@@ -1,27 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const EditContactForm = ({ contact, setContact, setIsEditing }) => {
+const EditContactForm = ({ contact, setContact, setIsEditing, onSave }) => {
   const [formData, setFormData] = useState(contact);
 
-  // Handle changes in the form inputs
+  useEffect(() => {
+    setFormData({ ...contact });
+  }, [contact]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Update the contact locally
-    const updatedContact = { ...formData };
-    setContact(updatedContact); // Update the contact in the parent component
+    onSave(formData); // Save the updated contact
     setIsEditing(false); // Exit editing mode
   };
 
-  // Cancel editing and revert changes
   const handleCancel = () => {
-    setIsEditing(false); // Exit editing mode without saving
+    setIsEditing(false); // Cancel and revert changes
   };
 
   return (
@@ -53,7 +51,8 @@ const EditContactForm = ({ contact, setContact, setIsEditing }) => {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-4 py-2 border rounded"
+          disabled
+          className="w-full px-4 py-2 border rounded bg-gray-200"
         />
       </div>
       <div>
@@ -62,46 +61,6 @@ const EditContactForm = ({ contact, setContact, setIsEditing }) => {
           type="tel"
           name="phone"
           value={formData.phone}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div>
-        <label className="block text-gray-700">Street:</label>
-        <input
-          type="text"
-          name="street"
-          value={formData.street}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div>
-        <label className="block text-gray-700">City:</label>
-        <input
-          type="text"
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div>
-        <label className="block text-gray-700">State:</label>
-        <input
-          type="text"
-          name="state"
-          value={formData.state}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div>
-        <label className="block text-gray-700">Zip:</label>
-        <input
-          type="text"
-          name="zip"
-          value={formData.zip}
           onChange={handleChange}
           className="w-full px-4 py-2 border rounded"
         />
