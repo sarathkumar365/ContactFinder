@@ -35,7 +35,7 @@ const HomePage = () => {
                 setFilteredContacts={setFilteredContacts}
               />
               <ContactTable contacts={filteredContacts} />
-              {filteredContacts.length > 25 && <Pagination />}
+              {filteredContacts.length > 5 && <Pagination />}
             </>
           }
         />
