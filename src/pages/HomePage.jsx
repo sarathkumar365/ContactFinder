@@ -15,15 +15,16 @@ const HomePage = () => {
   // Load contacts from localStorage initially
   const [contacts, setContacts] = useState(getContactsFromLocalStorage());
   const [filteredContacts, setFilteredContacts] = useState(contacts); // Filtered contacts for display
-  const [currentPage, setCurrentPage] = useState(1); // Current page number
-  const [contactsPerPage] = useState(5); // Contacts per page (5)
+  const [selectedContact, setSelectedContact] = useState(null); // Track the selected contact
+  const [currentPage, setCurrentPage] = useState(1); // Current page
+  const [contactsPerPage] = useState(5); // Number of contacts per page
 
   useEffect(() => {
     // Whenever contacts are updated, save them to localStorage
     localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]); // Updates to contacts will be saved to localStorage
+  }, [contacts]);
 
-  // Calculate the index of the first and last contact on the current page
+  // Pagination Logic: Calculate the index of the first and last contact on the current page
   const indexOfLastContact = currentPage * contactsPerPage;
   const indexOfFirstContact = indexOfLastContact - contactsPerPage;
   const currentContacts = filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
@@ -43,8 +44,12 @@ const HomePage = () => {
               <SearchForm
                 contacts={contacts}
                 setFilteredContacts={setFilteredContacts}
+                selectedContact={selectedContact} // Pass selectedContact
               />
-              <ContactTable contacts={currentContacts} />
+              <ContactTable
+                contacts={currentContacts} // Only pass the current contacts for the current page
+                setSelectedContact={setSelectedContact} // Pass setSelectedContact
+              />
               {filteredContacts.length > 5 && (
                 <Pagination
                   totalContacts={filteredContacts.length}
