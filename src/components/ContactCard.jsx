@@ -1,10 +1,6 @@
 import React from 'react';
 
-const ContactCard = ({ contact, setIsEditing = () => {}, setIsDeleting = () => {} }) => {
-  if (!contact) {
-    return <div>No contact details available.</div>; // Fallback for missing contact
-  }
-
+const ContactCard = ({ contact, setIsEditing, setIsDeleting }) => {
   return (
     <div className="border p-6 rounded-lg shadow-md">
       <div className="mb-4">
@@ -19,13 +15,13 @@ const ContactCard = ({ contact, setIsEditing = () => {}, setIsDeleting = () => {
       </div>
       <div className="flex justify-between">
         <button
-          onClick={() => setIsEditing(true)}
+          onClick={() => setIsEditing(true)} // Open the editing form
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Edit
         </button>
         <button
-          onClick={() => setIsDeleting(true)}
+          onClick={() => setIsDeleting(true)} // Open the delete confirmation modal
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
         >
           Delete
