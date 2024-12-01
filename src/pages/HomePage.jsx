@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import SearchForm from '../components/SearchForm';
 import ContactTable from '../components/ContactTable';
 import Pagination from '../components/Pagination';
@@ -12,7 +12,7 @@ const getContactsFromLocalStorage = () => {
 };
 
 const HomePage = () => {
-  // Load contacts from localStorage initially
+  const navigate = useNavigate(); // To navigate to the Contact Details Page
   const [contacts, setContacts] = useState(getContactsFromLocalStorage());
   const [filteredContacts, setFilteredContacts] = useState(contacts); // Filtered contacts for display
   const [selectedContact, setSelectedContact] = useState(null); // Track the selected contact
@@ -31,6 +31,13 @@ const HomePage = () => {
 
   // Handle pagination click
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Handle edit or delete action
+  const handleEditDeleteClick = () => {
+    if (selectedContact) {
+      navigate(`/contact/${selectedContact.email}`); // Navigate to the edit page with the selected contact's email
+    }
+  };
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -57,6 +64,16 @@ const HomePage = () => {
                   paginate={paginate}
                   currentPage={currentPage}
                 />
+              )}
+
+              {/* Edit/Delete button */}
+              {selectedContact && (
+                <button
+                  onClick={handleEditDeleteClick}
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-4"
+                >
+                  Edit/Delete Selected Contact
+                </button>
               )}
             </>
           }

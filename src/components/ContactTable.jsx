@@ -7,11 +7,10 @@ const ContactTable = ({ contacts, setSelectedContact }) => {
   }
 
   const handleCheckboxChange = (contact, e) => {
-    // If the checkbox is checked, set the selected contact
     if (e.target.checked) {
-      setSelectedContact(contact); // Set the contact to be selected
+      setSelectedContact(contact); // Set the selected contact when checked
     } else {
-      setSelectedContact(null); // Reset selected contact when unchecked
+      setSelectedContact(null); // Reset the selected contact when unchecked
     }
   };
 
@@ -44,8 +43,8 @@ const ContactTable = ({ contacts, setSelectedContact }) => {
                     onChange={(e) => handleCheckboxChange(contact, e)} // Handle checkbox change
                   />
                 </td>
-                {/* Wrap the entire row in a Link to make it clickable */}
                 <td className="px-4 py-2">
+                  {/* Keep the row clickable by wrapping it with Link */}
                   <Link to={`/contact/${contact.email}`} className="block text-blue-500 hover:underline">
                     {name}
                   </Link>
