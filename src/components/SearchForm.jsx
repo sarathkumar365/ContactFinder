@@ -69,14 +69,14 @@ const SearchForm = ({ setFilteredContacts, contacts, selectedContact }) => {
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
       {['firstName', 'lastName', 'dob', 'email', 'phone', 'street', 'city', 'state', 'zip'].map((field) => (
         <input
-          key={field}
-          type={field === 'dob' ? 'date' : 'text'}
-          name={field}
-          placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-          className="border border-gray-300 rounded-md p-2"
-          value={formData[field]}
-          onChange={handleInputChange}
-        />
+        key={field}
+        type={field === 'dob' ? 'date' : 'text'}
+        name={field}
+        placeholder={field.replace(/([A-Z])/g, ' $1').toLowerCase()} // Convert camelCase to space-separated lowercase
+        className="border border-gray-300 rounded-md p-2"
+        value={formData[field]}
+        onChange={handleInputChange}
+      />
       ))}
       <button
         onClick={handleSearch}
