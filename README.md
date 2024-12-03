@@ -3,6 +3,8 @@
 ## Overview
 The **Contact Search** feature allows users to search and view contact details from a list of contacts. The project includes multiple search filters such as **First Name**, **Last Name**, **Email**, **Phone Number**, and more. It displays results in a table format with pagination, and users can select a contact to view detailed information.
 
+**Live Demo**: [Contact Search Feature - Live Demo](https://contactfinder.netlify.app/)
+
 ---
 
 ## Project Features
