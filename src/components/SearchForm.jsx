@@ -44,7 +44,7 @@ const SearchForm = ({ setFilteredContacts, contacts, selectedContact }) => {
   }, [selectedContact]); // Update form data whenever selected contact changes
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target;    
     setFormData({ ...formData, [name]: value });
   };
 
